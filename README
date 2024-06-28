@@ -7,7 +7,7 @@ Requirements:
 Instructions:
 1. Download the to-do-list server folder.
 2. Extract the folder to your desired location.
-3. Open Command Prompt and navigate to the to-do-list server directory, where are the files are saved.
+3. Open Command Prompt and navigate to the to-do-list server directory, where all the files are saved.
 4. Run the command "npm start"
 5. Open your web browser of choice and navigate to "http://localhost:5000/"
 6. To stop the server, go back to Command Prompt and press "Ctrl + C"
