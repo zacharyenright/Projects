@@ -1,6 +1,9 @@
 body {
     background-color: #121212;
 }
+h1 {
+  color: #76ff03;
+}
 .form-control {
     background-color: #2c2c2c;
     border-color: #76ff03;
