@@ -10,7 +10,7 @@ function strikeThrough(ev) {
 }
 
 function addItem() {
-    var maxChars = 50;  // Define the maximum number of characters allowed
+    var maxChars = 50;
 
     // create variables for the list item, and get the inputted text
     var li = document.createElement("li");
