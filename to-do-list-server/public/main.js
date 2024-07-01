@@ -1,5 +1,7 @@
+var itemToDelete = null;
+
 function strikeThrough(ev) {
-    var textElement = ev.target.parentNode.querySelector('.item-text');
+    var textElement = ev.target.closest('li').querySelector('.item-text');
     if (textElement.style.textDecoration === "line-through") {
         textElement.style.textDecoration = "none";
     } else {
@@ -26,15 +28,20 @@ function addItem() {
     textSpan.className = "item-text";
     textSpan.innerText = inputText;
 
+    var buttonContainer = document.createElement("div");
+    buttonContainer.className = "d-flex ms-auto";
+
     // delete button
     var deleteButton = document.createElement("button");
-    deleteButton.className = "btn btn-danger btn-sm";
+    deleteButton.className = "btn btn-danger btn-sm ms-2";
     deleteButton.innerText = "Delete";
-    deleteButton.onclick = deleteItem;
+    deleteButton.onclick = function(ev) {
+        displayModal(ev);
+    };
 
     // add done button
     var doneButton = document.createElement("button");
-    doneButton.className = "btn btn-primary btn-sm";
+    doneButton.className = "btn btn-primary btn-sm ms-2";
     doneButton.innerText = "Complete";
     doneButton.onclick = function(ev) {
         strikeThrough(ev);
@@ -45,9 +52,10 @@ function addItem() {
         alert("Please put text in the input box");
     } else {
         // add item to list
-        li.appendChild(doneButton);
         li.appendChild(textSpan);
-        li.appendChild(deleteButton);
+        buttonContainer.appendChild(doneButton);
+        buttonContainer.appendChild(deleteButton);
+        li.appendChild(buttonContainer);
         document.getElementById("items-list").appendChild(li);
     }
 
@@ -55,7 +63,19 @@ function addItem() {
     document.getElementById("task-input").value = '';
 }
 
-// delete button functionality
+function displayModal(ev) {
+    itemToDelete = ev.target.closest('li');
+    document.getElementById('id01').style.display = 'block';
+}
+
+function closeModal() {
+    document.getElementById('id01').style.display = 'none';
+}
+
 function deleteItem() {
-    this.parentNode.remove();
+    if (itemToDelete) {
+        itemToDelete.remove();
+        itemToDelete = null;
+    }
+    closeModal();
 }
