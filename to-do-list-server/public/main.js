@@ -80,33 +80,3 @@ function deleteItem() {
     closeModal();
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-    fetchWeatherData();
-});
-
-function fetchWeatherData() {
-    fetch('/weather')
-        .then(response => response.json())
-        .then(data => {
-            displayWeatherData(data);
-        })
-        .catch(error => console.log('Error fetching weather data:', error));
-}
-
-function displayWeatherData(data) {
-    const weatherInfo = document.getElementById("weather-info");
-    
-    if (data && data.list && data.list.length > 0) {
-        const weather = data.list[0];
-        const weatherHTML = `
-            <h3>${data.city.name}</h3>
-            <p><strong>Temperature:</strong> ${(weather.main.temp - 273.15).toFixed(2)} °C</p>
-            <p><strong>Weather:</strong> ${weather.weather[0].description}</p>
-            <p><strong>Humidity:</strong> ${weather.main.humidity}%</p>
-            <p><strong>Wind Speed:</strong> ${weather.wind.speed} m/s</p>
-        `;
-        weatherInfo.innerHTML = weatherHTML;
-    } else {
-        weatherInfo.innerHTML = 'No weather data available';
-    }
-}
