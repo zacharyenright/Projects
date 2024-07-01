@@ -1,51 +1,35 @@
-const http = require('http');
-const fs = require('fs');
-const path = require('path');
+const express = require("express");
+const https = require("https");
+const path = require("path");
 
-const server = http.createServer((req, res) => {
-  let filePath = path.join(__dirname, 'public', req.url === '/' ? 'index.html' : req.url);
-  let extname = path.extname(filePath);
-  let contentType = 'text/html';
+const app = express();
+const apiKey = "385abcddb33730c3ad3b1cab3712e717";
+const location = "Nyeri";
+const api = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${apiKey}`;
 
-  switch (extname) {
-    case '.js':
-      contentType = 'text/javascript';
-      break;
-    case '.css':
-      contentType = 'text/css';
-      break;
-    case '.json':
-      contentType = 'application/json';
-      break;
-    case '.png':
-      contentType = 'image/png';
-      break;
-    case '.jpg':
-      contentType = 'image/jpg';
-      break;
-    case '.wav':
-      contentType = 'audio/wav';
-      break;
-  }
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
 
-  fs.readFile(filePath, (error, content) => {
-    if (error) {
-      if (error.code == 'ENOENT') {
-        fs.readFile(path.join(__dirname, 'public', '404.html'), (error, content) => {
-          res.writeHead(200, { 'Content-Type': 'text/html' });
-          res.end(content, 'utf-8');
-        });
-      } else {
-        res.writeHead(500);
-        res.end(`Sorry, check with the site admin for error: ${error.code} ..\n`);
-        res.end();
-      }
-    } else {
-      res.writeHead(200, { 'Content-Type': contentType });
-      res.end(content, 'utf-8');
-    }
+// Weather API 
+app.get("/weather", (req, res) => {
+  https.get(api, (response) => {
+    let data = '';
+
+    
+    response.on("data", (chunk) => {
+      data += chunk;
+    });
+
+    response.on("end", () => {
+      const weatherData = JSON.parse(data);
+      console.log(weatherData);
+      res.json(weatherData); 
+    });
+  }).on("error", (err) => {
+    console.log("Error: " + err.message);
+    res.status(500).send("Error fetching weather data");
   });
 });
 
 const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
