@@ -32,8 +32,8 @@ function processWeatherData(data) {
         });
 
         weatherDataByDay = Object.entries(days).map(([day, data]) => {
-            const highTemp = Math.max(...data.temps) - 273.15;
-            const lowTemp = Math.min(...data.temps) - 273.15;
+            const highTemp = Math.max(...data.temps);
+            const lowTemp = Math.min(...data.temps);
             const description = data.descriptions[0];
             return { day, highTemp, lowTemp, description };
         });
@@ -44,12 +44,11 @@ function displayWeatherData() {
     const weatherContent = document.getElementById("weather-content");
     if (weatherDataByDay.length > 0) {
         const { day, highTemp, lowTemp, description } = weatherDataByDay[currentDayIndex];
-        weatherContent.innerHTML = `
-            <h4>${day}</h4>
-            <p><strong>High:</strong> ${highTemp.toFixed(2)} °C</p>
-            <p><strong>Low:</strong> ${lowTemp.toFixed(2)} °C</p>
-            <p><strong>Weather:</strong> ${description}</p>
-        `;
+        weatherContent.innerHTML =
+            `<h4>${day}</h4>
+            <p><strong>High:</strong> ${highTemp.toFixed(2)} °F</p>
+            <p><strong>Low:</strong> ${lowTemp.toFixed(2)} °F</p>
+            <p><strong>Weather:</strong> ${description}</p>`;
     } else {
         weatherContent.innerHTML = 'No weather data available';
     }
