@@ -4,8 +4,8 @@ const path = require("path");
 
 const app = express();
 const apiKey = "385abcddb33730c3ad3b1cab3712e717";
-const location = "Nyeri";
-const api = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${apiKey}`;
+const location = "Alpharetta";
+const api = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${apiKey}&units=imperial`;
 
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
