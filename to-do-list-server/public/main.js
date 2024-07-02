@@ -12,7 +12,7 @@ function strikeThrough(ev) {
 function addItem() {
     var maxChars = 50;
 
-    // create variables for the list item, and get the inputted text
+    // Create variables for the list item, and get the inputted text
     var li = document.createElement("li");
     li.className = "list-group-item d-flex justify-content-between align-items-center";
     var inputText = document.getElementById("task-input").value;
@@ -20,18 +20,18 @@ function addItem() {
     // Check if the input text exceeds the maximum number of characters
     if (inputText.length > maxChars) {
         alert(`Please limit the text to ${maxChars} characters.`);
-        return; 
+        return;
     }
 
-    // create a span element to hold the text
+    // Create a span element to hold the text
     var textSpan = document.createElement("span");
-    textSpan.className = "item-text";
+    textSpan.className = "form-control"; 
     textSpan.innerText = inputText;
 
     var buttonContainer = document.createElement("div");
     buttonContainer.className = "d-flex ms-auto";
 
-    // delete button
+    // Delete button
     var deleteButton = document.createElement("button");
     deleteButton.className = "btn btn-danger btn-sm ms-2";
     deleteButton.innerText = "Delete";
@@ -39,7 +39,7 @@ function addItem() {
         displayModal(ev);
     };
 
-    // add done button
+    // Add done button
     var doneButton = document.createElement("button");
     doneButton.className = "btn btn-primary btn-sm ms-2";
     doneButton.innerText = "Complete";
@@ -47,14 +47,14 @@ function addItem() {
         strikeThrough(ev);
     };
 
-    // check if textbox has text
+    // Check if textbox has text
     if (inputText === '') {
         alert("Please put text in the input box");
     } else {
-        // add item to list
+        // Add item to list
         li.appendChild(textSpan);
-        buttonContainer.appendChild(doneButton);
         buttonContainer.appendChild(deleteButton);
+        buttonContainer.appendChild(doneButton);
         li.appendChild(buttonContainer);
         document.getElementById("items-list").appendChild(li);
     }
@@ -79,4 +79,3 @@ function deleteItem() {
     }
     closeModal();
 }
-
