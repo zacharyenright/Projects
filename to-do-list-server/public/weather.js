@@ -24,6 +24,8 @@ function processWeatherData(data) {
             if (!days[dateString]) {
                 days[dateString] = {
                     temps: [],
+                    currentTemp: item.main.temp,
+                    humidity: item.main.humidity,
                     descriptions: []
                 };
             }
@@ -35,19 +37,30 @@ function processWeatherData(data) {
             const highTemp = Math.max(...data.temps);
             const lowTemp = Math.min(...data.temps);
             const description = data.descriptions[0];
-            return { day, highTemp, lowTemp, description };
+            const currentTemp = data.currentTemp;
+            const humidity = data.humidity;
+            return { day, highTemp, lowTemp, currentTemp, humidity, description };
         });
     }
 }
 
 function displayWeatherData() {
     const weatherContent = document.getElementById("weather-content");
+    const today = new Date().toDateString();
     if (weatherDataByDay.length > 0) {
-        const { day, highTemp, lowTemp, description } = weatherDataByDay[currentDayIndex];
+        const { day, highTemp, lowTemp, currentTemp, humidity, description } = weatherDataByDay[currentDayIndex];
         weatherContent.innerHTML =
             `<h4>${day}</h4>
-            <p><strong>High:</strong> ${highTemp.toFixed(2)} °F</p>
-            <p><strong>Low:</strong> ${lowTemp.toFixed(2)} °F</p>
+            <p><strong>High:</strong> ${highTemp.toFixed(0)} °F</p>
+            <p><strong>Low:</strong> ${lowTemp.toFixed(0)} °F</p>`;
+        
+        if (day === today) {
+            weatherContent.innerHTML +=
+            `<p><strong>Current Temp:</strong> ${currentTemp.toFixed(0)} °F</p>`;
+        }
+
+        weatherContent.innerHTML +=
+            `<p><strong>Humidity:</strong> ${humidity.toFixed(0)}%</p>
             <p><strong>Weather:</strong> ${description}</p>`;
     } else {
         weatherContent.innerHTML = 'No weather data available';
